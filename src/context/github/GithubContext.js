@@ -5,7 +5,7 @@ const GithubContext = createContext()
 
 // Assign Github API and token stored in .env file to local variables
 const GITHUB_URL = process.env.REACT_APP_GITHUB_URL
-const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN
+// const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN
 
 export const GithubProvider = ({ children }) => {
   const initialState = {
@@ -15,21 +15,33 @@ export const GithubProvider = ({ children }) => {
 
   const [state, dispatch] = useReducer(GithubReducer, initialState)
 
-  //   Get initial users (testing purposes)
-  const fetchUsers = async () => {
+  //   Get search results
+  const searchUsers = async (text) => {
     setLoading()
 
-    const response = await fetch(`${GITHUB_URL}/users`, {
-      headers: {
-        Authorization: `token ${GITHUB_TOKEN}`,
-      },
+    const params = new URLSearchParams({
+      q: text,
     })
 
-    const data = await response.json()
+    // const response = await fetch(`${GITHUB_URL}/users`, {
+    //   headers: {
+    //     Authorization: `token ${GITHUB_TOKEN}`,
+    //   },
+    // })
+    const response = await fetch(`${GITHUB_URL}/search/users?${params}`)
+
+    const { items } = await response.json()
 
     dispatch({
       type: "GET_USERS",
-      payload: data,
+      payload: items,
+    })
+  }
+
+  // Clear users from state
+  const clearUsers = () => {
+    dispatch({
+      type: "CLEAR_USERS",
     })
   }
 
@@ -45,7 +57,8 @@ export const GithubProvider = ({ children }) => {
       value={{
         users: state.users,
         loading: state.loading,
-        fetchUsers,
+        searchUsers,
+        clearUsers,
       }}
     >
       {children}
