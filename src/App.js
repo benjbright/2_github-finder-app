@@ -7,6 +7,7 @@ import Footer from "./components/layout/Footer"
 import { GithubProvider } from "./context/github/GithubContext"
 
 function App() {
+  // console.log(process.env.REACT_APP_GITHUB_TOKEN)
   return (
     <GithubProvider>
       <Router>
