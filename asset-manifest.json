@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/2_github-finder-app/static/css/main.61832f67.css",
+    "main.js": "/2_github-finder-app/static/js/main.88af08df.js",
+    "static/media/spinner.gif": "/2_github-finder-app/static/media/spinner.a1a996746e5e48352c81.gif",
+    "index.html": "/2_github-finder-app/index.html",
+    "main.61832f67.css.map": "/2_github-finder-app/static/css/main.61832f67.css.map",
+    "main.88af08df.js.map": "/2_github-finder-app/static/js/main.88af08df.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.61832f67.css",
+    "static/js/main.88af08df.js"
+  ]
+}
