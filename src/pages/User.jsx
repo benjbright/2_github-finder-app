@@ -4,19 +4,36 @@ import { FaCodepen, FaStore, FaUserFriends, FaUsers } from "react-icons/fa"
 import Spinner from "../components/layout/Spinner"
 import RepoList from "../components/repos/RepoList"
 import GithubContext from "../context/github/GithubContext"
+import { getUser, getUserRepos } from "../context/github/GithubActions"
 
 const User = () => {
-  const { getUser, user, loading, getUserRepos, repos } =
-    useContext(GithubContext)
+  const { user, loading, repos, dispatch } = useContext(GithubContext)
 
   const params = useParams()
   // useParams from React Router 6 - to revise
 
   useEffect(() => {
-    getUser(params.login)
-    getUserRepos(params.login)
+    // getUser(params.login)
+    // getUserRepos(params.login)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    dispatch({ type: "SET_LOADING" })
+    const getUserData = async () => {
+      const userData = await getUser(params.login)
+      dispatch({
+        type: "GET_USER",
+        payload: userData,
+      })
+
+      const userRepoData = await getUserRepos(params.login)
+      dispatch({
+        type: "GET_REPOS",
+        payload: userRepoData,
+      })
+    }
+
+    getUserData()
+    // Can pass in dispatch and params.login as dependencies as not constantly changing like the state
+  }, [dispatch, params.login])
 
   const {
     name,
